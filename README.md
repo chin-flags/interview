@@ -30,6 +30,7 @@ Here I used "shunting yard algorithm" to evaluate the mathematical expression.
 ## to-do
 
 - add opptional key pad
+- Implement for mobile 
 - ability to store and retrive values 
 - Further funtionalities (%,mod etc)
 - ability to change input (currently only 'Backspace' is availble)
