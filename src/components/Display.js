@@ -1,75 +1,85 @@
-import React, { useState } from 'react';
-import { useSpring, animated } from 'react-spring';
+/* eslint-disable react/jsx-filename-extension */
+import React from 'react';
 import useKeyboard from '../hooks/useKeyboard';
 
 const styles = {
   wrapper: {
-    width: '50%',
-    minWidth: 400,
+    width: '60%',
+    minWidth: 600,
     backgroundColor: '#009688',
     borderRadius: 20,
   },
-  display: {
-    height: '50%',
-    backgroundColor: '#80cbc4',
-    margin: 20,
-    borderRadius: 20,
+  display_container: {
     display: 'flex',
+    width: '100%',
+    flexDirection: 'row'
+  },
+  display: {
+    height: '40%',
+    width: '80%',
+    margin: 40,
+    padding: 20,
+    borderRadius: 20,
     justifyContent: 'center',
   },
   input: {
     width: '90%',
-    padding: 20,
-  }
+    height: '30%',
+    margin: 40,
+  },
+  display_text: {
+    fontSize: 100,
+    margin: 0,
+    color: 'white',
+    wordWrap: 'break-word',
+  },
+  input_text: {
+    wordWrap: 'break-word',
+    fontSize: 64,
+    margin: 0,
+    color: 'white',
+    textAlign: 'end',
+  },
+  typing_prompt: {
+    fontSize: 32,
+    margin: 0,
+    color: 'white',
+    textAlign: 'justify',
+  },
+  reset_text: {
+    fontSize: 24,
+    textAlign: 'end',
+    color: 'white',
+
+  },
 };
 
-
 const Display = () => {
-  const { input, setInput, isValidKey, solution } = useKeyboard();
-  const props = useSpring({ number: 1, from: { number: 0 } })
+  const { input, isValid, solution } = useKeyboard();
+
   return (
     <div style={styles.wrapper}>
-      <div style={styles.display}>
-        <p style={{ fontSize: 100, margin: 0, color: 'white', fontFamily: 'acme' }}>{solution ? Number.parseFloat(solution).toPrecision(4) : 'Not ready'}</p>
+      <div style={{ ...styles.display, backgroundColor: isValid ? '#80cbc4' : '#f48fb1' }}>
+        {
+          solution || solution === 0
+            ? <p style={styles.display_text}>{solution}</p>
+            : <p style={styles.display_text}> Not ready</p>
+        }
       </div>
       <div style={styles.input}>
         {
-          input ?
-            <span
-              style={{ wordWrap: 'break-word', fontSize: 64, margin: 0, color: 'white', textAlign: 'end', fontFamily: 'acme' }}
-            >
-              {input}
-            </span>
-            :
-            <p style={{ fontSize: 32, margin: 0, color: 'white', textAlign: 'justify', fontFamily: 'acme' }}>
-              start typing
-          </p>
+          input
+            ? <span style={styles.input_text}>{input}</span>
+            : (
+              <p style={styles.typing_prompt}>
+                start typing and result will follow !
+              </p>
+            )
         }
+        <p style={styles.reset_text}>BTW press "C" to reset</p>
       </div>
-    </div >
-    // <div style={{ display: 'flex', flex: 1, alignItems: 'center', height: '40vh', width: '60vw', flexDirection: 'column', backgroundColor: '#0097A7', padding: 32, borderRadius: 20 }} >
-    //   <div style={{ borderWidth: 40, borderColor: 'blue', width: '100%', display: 'flex', flex: 1, justifyContent: 'center', borderRadius: 20, backgroundColor: solution ? '#4db6ac' : '#f48fb1' }}>
-    //     <p style={{ fontSize: 100, margin: 0, color: 'white', fontFamily: 'acme' }}>{solution ? solution : 'Not ready'}</p>
-    //   </div>
-    //   {
-    //     input ?
-    //       <p
-    //         style={{ fontSize: 64, margin: 0, color: 'white', alignSelf: 'flex-end', fontFamily: 'acme' }}
-    //       >
-    //         {input}
-    //       </p>
-    //       :
-    //       <p style={{ fontSize: 32, margin: 0, color: 'white', alignSelf: 'flex-end', fontFamily: 'acme' }}>
-    //         start typing
-    //       </p>
-    //   }
-
-    //   {/* <button onClick={() => {
-    //     setResult(calculateRpn(input));
-    //   }} >Solve</button>
-    //   <button onClick={() => { setResult(0); setInput("") }}>Reset</button> */}
-    // </div >
-  )
-}
+    </div>
+  );
+};
 
 export default Display;
